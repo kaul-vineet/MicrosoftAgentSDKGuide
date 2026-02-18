@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Microsoft Developer Technologies - Comparison Chart</title>
+    <title>Microsoft Agentic Tools - Comparison Chart</title>
     <style>
         * {
             margin: 0;
@@ -12,146 +12,460 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            font-family: 'Pathway Gothic One', 'Arial Black', 'Impact', sans-serif;
+            background: #000;
+            min-height: 100vh;
             padding: 20px;
+            position: relative;
+            color: #E0E0E0;
+            overflow-x: hidden;
+        }
+
+        /* Animated starfield - enhanced */
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.2; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes scanline {
+            0% { transform: translateY(-100%); }
+            100% { transform: translateY(100vh); }
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle 3s infinite;
+            box-shadow: 0 0 4px rgba(255, 255, 255, 0.8);
+        }
+
+        .star:nth-child(1) { width: 2px; height: 2px; top: 20%; left: 30%; animation-delay: 0s; }
+        .star:nth-child(2) { width: 1px; height: 1px; top: 40%; left: 70%; animation-delay: 1s; }
+        .star:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 20%; animation-delay: 2s; }
+        .star:nth-child(4) { width: 2px; height: 2px; top: 80%; left: 80%; animation-delay: 1.5s; }
+        .star:nth-child(5) { width: 1px; height: 1px; top: 10%; left: 50%; animation-delay: 0.5s; }
+        .star:nth-child(6) { width: 2px; height: 2px; top: 30%; left: 90%; animation-delay: 2.5s; }
+        .star:nth-child(7) { width: 1px; height: 1px; top: 70%; left: 40%; animation-delay: 1.8s; }
+        .star:nth-child(8) { width: 3px; height: 3px; top: 50%; left: 10%; animation-delay: 0.8s; }
+        .star:nth-child(9) { width: 2px; height: 2px; top: 15%; left: 75%; animation-delay: 1.2s; }
+        .star:nth-child(10) { width: 1px; height: 1px; top: 55%; left: 85%; animation-delay: 2.2s; }
+        .star:nth-child(11) { width: 2px; height: 2px; top: 25%; left: 15%; animation-delay: 0.7s; }
+        .star:nth-child(12) { width: 3px; height: 3px; top: 75%; left: 60%; animation-delay: 1.9s; }
+        .star:nth-child(13) { width: 1px; height: 1px; top: 35%; left: 45%; animation-delay: 0.3s; }
+        .star:nth-child(14) { width: 2px; height: 2px; top: 65%; left: 95%; animation-delay: 2.7s; }
+        .star:nth-child(15) { width: 1px; height: 1px; top: 90%; left: 25%; animation-delay: 1.4s; }
+        .star:nth-child(16) { width: 2px; height: 2px; top: 5%; left: 65%; animation-delay: 0.9s; }
+
+        /* Tech scan line effect */
+        .stars::before {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(255, 215, 0, 0.3), transparent);
+            animation: scanline 8s linear infinite;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.95);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+            box-shadow:
+                0 0 80px rgba(255, 215, 0, 0.4),
+                inset 0 0 60px rgba(255, 215, 0, 0.05);
             overflow: hidden;
+            border: 2px solid #FFD700;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Corner accents - targeting computer style */
+        .container::before,
+        .container::after {
+            content: '';
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 3px solid #FFD700;
+            z-index: 10;
+            animation: pulse 2s infinite;
+        }
+
+        .container::before {
+            top: 10px;
+            left: 10px;
+            border-right: none;
+            border-bottom: none;
+            box-shadow: -5px -5px 20px rgba(255, 215, 0, 0.3);
+        }
+
+        .container::after {
+            bottom: 10px;
+            right: 10px;
+            border-left: none;
+            border-top: none;
+            box-shadow: 5px 5px 20px rgba(255, 215, 0, 0.3);
         }
 
         .header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
+            background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #000000 100%);
+            color: #FFD700;
+            padding: 50px 40px;
             text-align: center;
+            position: relative;
+            border-bottom: 4px solid #FFD700;
+            box-shadow: 0 4px 20px rgba(255, 215, 0, 0.5);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 215, 0, 0.5) 20%,
+                rgba(255, 215, 0, 0.8) 50%,
+                rgba(255, 215, 0, 0.5) 80%,
+                transparent);
         }
 
         .header h1 {
-            font-size: 2.5em;
-            margin-bottom: 10px;
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow:
+                0 0 8px rgba(255, 215, 0, 0.4),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
         .header p {
-            font-size: 1.2em;
-            opacity: 0.95;
+            font-size: 1.3em;
+            color: #FFD700;
+            text-shadow:
+                0 0 5px rgba(255, 215, 0, 0.3);
+            letter-spacing: 2px;
         }
 
         .tabs {
             display: flex;
-            background: #f8f9fa;
-            border-bottom: 2px solid #e9ecef;
+            background: rgba(0, 0, 0, 0.95);
+            border-bottom: 3px solid #FFD700;
             overflow-x: auto;
+            position: relative;
+        }
+
+        .tabs::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg,
+                transparent,
+                rgba(255, 215, 0, 0.8) 50%,
+                transparent);
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
         }
 
         .tab {
-            padding: 15px 30px;
+            padding: 18px 35px;
             cursor: pointer;
             border: none;
             background: none;
-            font-size: 1em;
-            font-weight: 600;
-            color: #666;
+            font-size: 1.1em;
+            font-weight: 700;
+            color: #999;
             transition: all 0.3s;
             white-space: nowrap;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 3px;
+            background: #FFD700;
+            transition: all 0.3s;
+            transform: translateX(-50%);
+            box-shadow: 0 0 10px #FFD700;
         }
 
         .tab:hover {
-            background: rgba(102, 126, 234, 0.1);
+            background: rgba(255, 215, 0, 0.05);
+            color: #FFD700;
+        }
+
+        .tab:hover::before {
+            width: 80%;
         }
 
         .tab.active {
-            color: #667eea;
-            background: white;
-            border-bottom: 3px solid #667eea;
+            color: #FFD700;
+            background: rgba(10, 10, 10, 0.9);
+            text-shadow: 0 0 10px #FFD700;
+        }
+
+        .tab.active::before {
+            width: 100%;
+            box-shadow: 0 0 20px #FFD700;
         }
 
         .content {
             padding: 40px;
+            background: rgba(0, 0, 0, 0.9);
+            position: relative;
+        }
+
+        /* Tech grid overlay */
+        .content::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                linear-gradient(rgba(255, 215, 0, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 215, 0, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+            pointer-events: none;
+            opacity: 0.5;
         }
 
         .tab-content {
             display: none;
+            position: relative;
+            z-index: 1;
         }
 
         .tab-content.active {
             display: block;
-            animation: fadeIn 0.5s;
+            animation: fadeIn 0.6s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h2 {
+            color: #FFD700;
+            font-size: 2.5em;
+            margin-bottom: 35px;
+            text-shadow:
+                0 0 6px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-weight: 900;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.3);
+            padding-bottom: 15px;
         }
 
         .comparison-table {
             width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
+            border-collapse: separate;
+            border-spacing: 0;
+            margin: 25px 0;
+            background: rgba(0, 0, 0, 0.8);
+            overflow: hidden;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            box-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
 
         .comparison-table th {
-            background: #667eea;
-            color: white;
-            padding: 15px;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.95) 0%, rgba(20, 20, 20, 0.95) 100%);
+            color: #FFD700;
+            padding: 18px 15px;
             text-align: left;
-            font-weight: 600;
+            font-weight: 700;
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95em;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+            position: relative;
+        }
+
+        .comparison-table th::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #FFD700, transparent);
+            box-shadow: 0 0 10px #FFD700;
         }
 
         .comparison-table td {
             padding: 15px;
-            border-bottom: 1px solid #e9ecef;
+            border: 1px solid rgba(255, 215, 0, 0.2);
             vertical-align: top;
+            color: #E0E0E0;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
         }
 
-        .comparison-table tr:hover {
-            background: #f8f9fa;
+        .comparison-table td strong {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .comparison-table tr:hover td {
+            background: rgba(255, 215, 0, 0.08);
+            box-shadow: inset 0 0 20px rgba(255, 215, 0, 0.1);
         }
 
         .tech-card {
-            background: white;
-            border: 2px solid #e9ecef;
-            border-radius: 12px;
-            padding: 25px;
-            margin-bottom: 20px;
-            transition: transform 0.3s, box-shadow 0.3s;
+            background: linear-gradient(135deg, rgba(5, 5, 5, 0.95) 0%, rgba(15, 15, 15, 0.95) 100%);
+            border: 2px solid #FFD700;
+            clip-path: polygon(15px 0, 100% 0, 100% calc(100% - 15px), calc(100% - 15px) 100%, 0 100%, 0 15px);
+            padding: 30px;
+            margin-bottom: 25px;
+            transition: all 0.3s;
+            position: relative;
+            box-shadow:
+                0 0 20px rgba(255, 215, 0, 0.2),
+                inset 0 0 30px rgba(255, 215, 0, 0.03);
+        }
+
+        /* Corner indicators */
+        .tech-card::before,
+        .tech-card::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            border: 2px solid rgba(255, 215, 0, 0.6);
+            transition: all 0.3s;
+        }
+
+        .tech-card::before {
+            top: 8px;
+            right: 8px;
+            border-left: none;
+            border-bottom: none;
+        }
+
+        .tech-card::after {
+            bottom: 8px;
+            left: 8px;
+            border-right: none;
+            border-top: none;
         }
 
         .tech-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: translateX(5px);
+            box-shadow:
+                -5px 5px 30px rgba(255, 215, 0, 0.4),
+                inset 0 0 40px rgba(255, 215, 0, 0.05);
+            border-color: #FFD700;
+        }
+
+        .tech-card:hover::before,
+        .tech-card:hover::after {
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.6);
         }
 
         .tech-card h3 {
-            color: #667eea;
-            font-size: 1.5em;
-            margin-bottom: 10px;
+            color: #FFD700;
+            font-size: 1.7em;
+            margin-bottom: 15px;
+            text-shadow:
+                0 0 5px rgba(255, 215, 0, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 800;
+        }
+
+        .tech-card p {
+            color: #D0D0D0;
+            line-height: 1.7;
+        }
+
+        .tech-card strong {
+            color: #FFD700;
+            font-weight: 600;
         }
 
         .tech-card .badge {
             display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-            margin-right: 8px;
-            margin-bottom: 10px;
+            padding: 6px 14px;
+            clip-path: polygon(5px 0, 100% 0, calc(100% - 5px) 100%, 0 100%);
+            font-size: 0.8em;
+            font-weight: 700;
+            margin-right: 10px;
+            margin-bottom: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid;
         }
 
         .badge.status {
-            background: #d4edda;
-            color: #155724;
+            background: linear-gradient(135deg, rgba(0, 255, 0, 0.2) 0%, rgba(0, 170, 0, 0.2) 100%);
+            color: #00ff00;
+            border-color: #00ff00;
+            box-shadow:
+                0 0 15px rgba(0, 255, 0, 0.4),
+                inset 0 0 10px rgba(0, 255, 0, 0.1);
+            text-shadow: 0 0 5px rgba(0, 255, 0, 0.8);
         }
 
         .badge.preview {
-            background: #fff3cd;
-            color: #856404;
+            background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(255, 107, 0, 0.2) 100%);
+            color: #FFD700;
+            border-color: #FFD700;
+            box-shadow:
+                0 0 15px rgba(255, 215, 0, 0.4),
+                inset 0 0 10px rgba(255, 215, 0, 0.1);
+            text-shadow: 0 0 5px rgba(255, 215, 0, 0.8);
+        }
+
+        .badge:not(.status):not(.preview) {
+            background: rgba(0, 217, 255, 0.15);
+            color: #00D9FF;
+            border-color: #00D9FF;
+            box-shadow:
+                0 0 10px rgba(0, 217, 255, 0.3),
+                inset 0 0 10px rgba(0, 217, 255, 0.1);
+            text-shadow: 0 0 5px rgba(0, 217, 255, 0.8);
         }
 
         .section {
@@ -159,9 +473,17 @@
         }
 
         .section h4 {
-            color: #333;
-            margin-bottom: 10px;
-            font-size: 1.1em;
+            color: #FFD700;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+        }
+
+        .section p {
+            color: #D0D0D0;
+            line-height: 1.8;
         }
 
         .section ul {
@@ -170,56 +492,137 @@
         }
 
         .section li {
-            padding: 8px 0;
-            padding-left: 25px;
+            padding: 10px 0;
+            padding-left: 35px;
             position: relative;
+            color: #D0D0D0;
+            line-height: 1.6;
         }
 
         .section li:before {
-            content: "✓";
+            content: "▸";
             position: absolute;
             left: 0;
-            color: #28a745;
+            color: #00ff00;
             font-weight: bold;
+            font-size: 1.3em;
+            text-shadow: 0 0 10px rgba(0, 255, 0, 0.6);
         }
 
         .section.when-not li:before {
             content: "✗";
-            color: #dc3545;
+            color: #ff3333;
+            text-shadow: 0 0 10px rgba(255, 51, 51, 0.6);
         }
 
         .decision-flow {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            border-radius: 12px;
-            padding: 30px;
-            margin: 20px 0;
+            background: rgba(5, 5, 5, 0.9);
+            clip-path: polygon(20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%, 0 20px);
+            padding: 35px;
+            margin: 25px 0;
+            border: 2px solid #FFD700;
+            box-shadow:
+                0 0 30px rgba(255, 215, 0, 0.3),
+                inset 0 0 40px rgba(255, 215, 0, 0.03);
+            position: relative;
+        }
+
+        .decision-flow::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 30px;
+            height: 30px;
+            border: 2px solid rgba(255, 215, 0, 0.5);
+            border-left: none;
+            border-bottom: none;
+            animation: pulse 2s infinite;
         }
 
         .decision-step {
-            background: white;
-            border-left: 4px solid #667eea;
-            padding: 20px;
-            margin: 15px 0;
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.7);
+            border-left: 4px solid #00D9FF;
+            padding: 22px;
+            margin: 18px 0;
+            clip-path: polygon(10px 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%, 0 10px);
+            position: relative;
+            box-shadow:
+                -4px 0 15px rgba(0, 217, 255, 0.2),
+                inset 0 0 20px rgba(0, 217, 255, 0.05);
+            transition: all 0.3s;
+        }
+
+        .decision-step:hover {
+            border-left-color: #FFD700;
+            box-shadow:
+                -4px 0 20px rgba(255, 215, 0, 0.3),
+                inset 0 0 30px rgba(255, 215, 0, 0.08);
         }
 
         .decision-step h4 {
-            color: #667eea;
-            margin-bottom: 10px;
+            color: #FFD700;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+        }
+
+        .decision-step p {
+            color: #D0D0D0;
+            line-height: 1.7;
+        }
+
+        .decision-step ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 15px;
+        }
+
+        .decision-step li {
+            color: #D0D0D0;
+            padding: 8px 0;
+            padding-left: 30px;
+            position: relative;
+            line-height: 1.6;
+        }
+
+        .decision-step li:before {
+            content: "▹";
+            position: absolute;
+            left: 0;
+            color: #00D9FF;
+            font-size: 1.3em;
+            font-weight: bold;
+            text-shadow: 0 0 8px rgba(0, 217, 255, 0.6);
         }
 
         .arrow {
             text-align: center;
-            font-size: 2em;
-            color: #667eea;
-            margin: 10px 0;
+            font-size: 2.5em;
+            color: #FFD700;
+            margin: 15px 0;
+            text-shadow:
+                0 0 6px rgba(255, 215, 0, 0.3);
+            animation: pulse 2s infinite;
+            filter: drop-shadow(0 0 5px rgba(255, 215, 0, 0.4));
         }
 
         .highlight {
-            background: #fff3cd;
-            padding: 2px 6px;
-            border-radius: 3px;
-            font-weight: 600;
+            background: rgba(255, 215, 0, 0.15);
+            padding: 3px 10px;
+            clip-path: polygon(3px 0, 100% 0, calc(100% - 3px) 100%, 0 100%);
+            font-weight: 700;
+            color: #FFD700;
+            border: 1px solid rgba(255, 215, 0, 0.5);
+            text-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+            box-shadow:
+                0 0 10px rgba(255, 215, 0, 0.3),
+                inset 0 0 10px rgba(255, 215, 0, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95em;
         }
 
         .grid {
@@ -230,15 +633,99 @@
         }
 
         .grid-item {
-            background: #f8f9fa;
-            padding: 20px;
-            border-radius: 8px;
-            border-left: 4px solid #667eea;
+            background: rgba(5, 5, 5, 0.9);
+            padding: 25px;
+            clip-path: polygon(12px 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%, 0 12px);
+            border: 2px solid rgba(0, 217, 255, 0.4);
+            transition: all 0.3s;
+            position: relative;
+            box-shadow:
+                0 0 15px rgba(0, 217, 255, 0.2),
+                inset 0 0 20px rgba(0, 217, 255, 0.03);
+        }
+
+        .grid-item::before {
+            content: '';
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            width: 20px;
+            height: 20px;
+            border: 2px solid rgba(0, 217, 255, 0.5);
+            border-right: none;
+            border-bottom: none;
+            transition: all 0.3s;
+        }
+
+        .grid-item:hover {
+            transform: translateY(-5px) translateX(3px);
+            border-color: #FFD700;
+            box-shadow:
+                -5px 8px 25px rgba(255, 215, 0, 0.3),
+                inset 0 0 30px rgba(255, 215, 0, 0.05);
+        }
+
+        .grid-item:hover::before {
+            border-color: #FFD700;
+            box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
         }
 
         .grid-item h4 {
-            color: #667eea;
-            margin-bottom: 10px;
+            color: #FFD700;
+            margin-bottom: 12px;
+            font-size: 1.2em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 4px rgba(255, 215, 0, 0.3);
+        }
+
+        .grid-item p {
+            color: #D0D0D0;
+            line-height: 1.7;
+            margin-bottom: 8px;
+        }
+
+        .grid-item strong {
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .lightsaber-divider {
+            height: 4px;
+            background: linear-gradient(90deg,
+                transparent 0%,
+                rgba(0, 217, 255, 0.3) 10%,
+                #00D9FF 50%,
+                rgba(0, 217, 255, 0.3) 90%,
+                transparent 100%);
+            margin: 40px 0;
+            box-shadow:
+                0 0 20px #00D9FF,
+                0 0 40px rgba(0, 217, 255, 0.5),
+                0 0 60px rgba(0, 217, 255, 0.3);
+            position: relative;
+            animation: pulse 3s infinite;
+        }
+
+        .lightsaber-divider::before,
+        .lightsaber-divider::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #00D9FF;
+            border-radius: 50%;
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: 0 0 15px #00D9FF;
+        }
+
+        .lightsaber-divider::before {
+            left: 10%;
+        }
+
+        .lightsaber-divider::after {
+            right: 10%;
         }
 
         @media print {
@@ -253,12 +740,60 @@
                 page-break-after: always;
             }
         }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+                letter-spacing: 2px;
+            }
+            .header p {
+                font-size: 1em;
+            }
+            .content {
+                padding: 20px;
+            }
+            .tech-card {
+                padding: 20px;
+            }
+            .tab {
+                padding: 15px 20px;
+                font-size: 0.95em;
+            }
+            .container::before,
+            .container::after {
+                width: 25px;
+                height: 25px;
+            }
+            h2 {
+                font-size: 1.8em;
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- Enhanced Starfield -->
+    <div class="stars">
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+        <div class="star"></div>
+    </div>
+
     <div class="container">
         <div class="header">
-            <h1>📊 Microsoft Developer Technologies</h1>
+            <h1>📊 Microsoft Agentic Tools</h1>
             <p>Complete Comparison & Decision Guide</p>
         </div>
 
@@ -267,7 +802,6 @@
             <button class="tab" onclick="showTab('comparison')">Feature Comparison</button>
             <button class="tab" onclick="showTab('decision')">Decision Guide</button>
             <button class="tab" onclick="showTab('scenarios')">Use Case Scenarios</button>
-            <button class="tab" onclick="showTab('details')">Detailed Info</button>
         </div>
 
         <div class="content">
@@ -323,13 +857,6 @@
                     <p><strong>Best For:</strong> Complex multi-agent workflows, cloud-agnostic deployment</p>
                 </div>
 
-                <div class="tech-card">
-                    <h3>Foundry Agent Service</h3>
-                    <span class="badge preview">Public Preview</span>
-                    <span class="badge">Managed Service</span>
-                    <p><strong>Purpose:</strong> Fully managed hosting for agents without infrastructure management</p>
-                    <p><strong>Best For:</strong> Production deployment without DevOps overhead</p>
-                </div>
             </div>
 
             <!-- Comparison Tab -->
@@ -421,37 +948,10 @@
                             <td>✓✓ Any Provider</td>
                             <td>Azure Models</td>
                         </tr>
-                        <tr>
-                            <td><strong>OpenAPI Support</strong></td>
-                            <td>✗ None</td>
-                            <td>✗ None</td>
-                            <td>~ Manual</td>
-                            <td>~ Manual</td>
-                            <td>✓✓ First-class</td>
-                            <td>~ Manual</td>
-                        </tr>
-                        <tr>
-                            <td><strong>MCP Support</strong></td>
-                            <td>✗ None</td>
-                            <td>✗ None</td>
-                            <td>✗ None</td>
-                            <td>✓✓ Native</td>
-                            <td>✓ Supported</td>
-                            <td>~ Custom</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Status (Feb 2026)</strong></td>
-                            <td>GA / Preview</td>
-                            <td>GA</td>
-                            <td>Public Preview</td>
-                            <td>Private Preview</td>
-                            <td>Public Preview</td>
-                            <td>GA</td>
-                        </tr>
                     </tbody>
                 </table>
 
-                <p style="margin-top: 20px;"><strong>Legend:</strong> ✓✓ = Excellent Support | ✓ = Good Support | ~ = Partial/Manual | ✗ = Not Supported</p>
+                <p style="margin-top: 20px; color: #87CEEB;"><strong>Legend:</strong> ✓✓ = Excellent Support | ✓ = Good Support | ~ = Partial/Manual | ✗ = Not Supported</p>
             </div>
 
             <!-- Decision Guide Tab -->
@@ -505,7 +1005,6 @@
                             <li>Complex agentic workflows</li>
                             <li>OpenAPI tool integration</li>
                         </ul>
-                        <p style="margin-top: 10px;"><strong>Need managed hosting?</strong> Deploy to <span class="highlight">Foundry Agent Service</span></p>
                     </div>
 
                     <div class="decision-step">
@@ -526,309 +1025,54 @@
 
                 <div class="grid">
                     <div class="grid-item">
-                        <h4>🔍 Scenario: Customer Support Search</h4>
+                        <h4>🔍 Customer Support Search</h4>
                         <p><strong>Need:</strong> Search company docs in SharePoint using natural language</p>
                         <p><strong>Solution:</strong> M365 Copilot API (Retrieval)</p>
                         <p><strong>Why:</strong> Permission-aware, semantic search, no vector index setup</p>
                     </div>
 
                     <div class="grid-item">
-                        <h4>💬 Scenario: Internal Chatbot</h4>
+                        <h4>💬 Internal Chatbot</h4>
                         <p><strong>Need:</strong> Conversational assistant for employees with M365 data</p>
                         <p><strong>Solution:</strong> M365 Copilot API (Chat)</p>
                         <p><strong>Why:</strong> Enterprise grounding, multi-turn conversations built-in</p>
                     </div>
 
                     <div class="grid-item">
-                        <h4>📅 Scenario: Meeting Summary Automation</h4>
+                        <h4>📅 Meeting Summary Automation</h4>
                         <p><strong>Need:</strong> Automatically extract action items from Teams meetings</p>
                         <p><strong>Solution:</strong> M365 Copilot API (Meeting Insights)</p>
                         <p><strong>Why:</strong> AI-generated summaries, no transcript processing needed</p>
                     </div>
 
                     <div class="grid-item">
-                        <h4>📱 Scenario: Mobile Bot App</h4>
+                        <h4>📱 Mobile Bot App</h4>
                         <p><strong>Need:</strong> React Native app connected to existing bot</p>
                         <p><strong>Solution:</strong> DirectLine API</p>
                         <p><strong>Why:</strong> Standard protocol, cross-platform, full UI control</p>
                     </div>
 
                     <div class="grid-item">
-                        <h4>🤖 Scenario: HR Assistant for Teams</h4>
+                        <h4>🤖 HR Assistant for Teams</h4>
                         <p><strong>Need:</strong> Agent answering HR questions in Teams and web portal</p>
                         <p><strong>Solution:</strong> M365 Agents SDK</p>
                         <p><strong>Why:</strong> Multi-channel deployment, unified codebase</p>
                     </div>
 
                     <div class="grid-item">
-                        <h4>🔔 Scenario: Notification-Driven Agent</h4>
+                        <h4>🔔 Notification-Driven Agent</h4>
                         <p><strong>Need:</strong> Agent responds to Teams messages, creates calendar events</p>
                         <p><strong>Solution:</strong> Microsoft Agent 365 SDK</p>
                         <p><strong>Why:</strong> Native notification handling, governed M365 API access</p>
                     </div>
 
                     <div class="grid-item">
-                        <h4>🎯 Scenario: Sales Pipeline Agent</h4>
-                        <p><strong>Need:</strong> Agent accesses Outlook, updates SharePoint, notifies team</p>
-                        <p><strong>Solution:</strong> Microsoft Agent 365 SDK</p>
-                        <p><strong>Why:</strong> MCP integration, admin-controlled data access</p>
-                    </div>
-
-                    <div class="grid-item">
-                        <h4>🔬 Scenario: Research System</h4>
+                        <h4>🔬 Research System</h4>
                         <p><strong>Need:</strong> Multiple specialized agents (researcher, analyst, writer) collaborating</p>
                         <p><strong>Solution:</strong> Microsoft Agent Framework</p>
                         <p><strong>Why:</strong> Multi-agent orchestration, agent-to-agent communication</p>
                     </div>
 
-                    <div class="grid-item">
-                        <h4>🛠️ Scenario: DevOps Agent</h4>
-                        <p><strong>Need:</strong> Agent using GitHub, Jira, Slack APIs via OpenAPI specs</p>
-                        <p><strong>Solution:</strong> Microsoft Agent Framework</p>
-                        <p><strong>Why:</strong> OpenAPI-first design, automatic tool integration</p>
-                    </div>
-
-                    <div class="grid-item">
-                        <h4>☁️ Scenario: Production Agent Deployment</h4>
-                        <p><strong>Need:</strong> Deploy multi-agent system without managing Kubernetes</p>
-                        <p><strong>Solution:</strong> Foundry Agent Service</p>
-                        <p><strong>Why:</strong> Fully managed, observability built-in, no containers</p>
-                    </div>
-
-                    <div class="grid-item">
-                        <h4>🧠 Scenario: Custom AI App</h4>
-                        <p><strong>Need:</strong> Build AI app with Azure OpenAI, prompt testing, monitoring</p>
-                        <p><strong>Solution:</strong> Azure AI Foundry SDK</p>
-                        <p><strong>Why:</strong> Integrated Azure services, prompt flow, evaluation tools</p>
-                    </div>
-
-                    <div class="grid-item">
-                        <h4>🔄 Scenario: Document Processing Pipeline</h4>
-                        <p><strong>Need:</strong> Classification agent → Extraction agent → Summary agent</p>
-                        <p><strong>Solution:</strong> Microsoft Agent Framework → Foundry Agent Service</p>
-                        <p><strong>Why:</strong> Multi-agent workflow with managed deployment</p>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Details Tab -->
-            <div id="details" class="tab-content">
-                <h2>Detailed Technology Information</h2>
-
-                <div class="tech-card">
-                    <h3>M365 Copilot API</h3>
-
-                    <div class="section">
-                        <h4>When to Use ✓</h4>
-                        <ul>
-                            <li>Need semantic search over SharePoint/OneDrive content</li>
-                            <li>Want conversational AI with M365 data grounding</li>
-                            <li>Require meeting insights and AI summaries</li>
-                            <li>Building apps that leverage M365 Copilot intelligence</li>
-                            <li>Need permission-aware search results</li>
-                        </ul>
-                    </div>
-
-                    <div class="section when-not">
-                        <h4>When NOT to Use ✗</h4>
-                        <ul>
-                            <li>Building a custom agent (use M365 Agents SDK)</li>
-                            <li>Need multi-agent orchestration (use Agent Framework)</li>
-                            <li>Only need bot messaging (use DirectLine API)</li>
-                            <li>Require on-premises deployment</li>
-                        </ul>
-                    </div>
-
-                    <div class="section">
-                        <h4>Key APIs</h4>
-                        <ul>
-                            <li><strong>Retrieval API:</strong> Semantic search with permission trimming</li>
-                            <li><strong>Chat API:</strong> Multi-turn conversations with M365 grounding</li>
-                            <li><strong>Meeting Insights API:</strong> AI-generated meeting summaries</li>
-                            <li><strong>Search API:</strong> Semantic search across OneDrive</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="tech-card">
-                    <h3>DirectLine API</h3>
-
-                    <div class="section">
-                        <h4>When to Use ✓</h4>
-                        <ul>
-                            <li>Have an existing Bot Framework bot</li>
-                            <li>Need a custom chat UI (web, mobile, desktop)</li>
-                            <li>Want full control over client experience</li>
-                            <li>Require cross-platform bot integration</li>
-                        </ul>
-                    </div>
-
-                    <div class="section when-not">
-                        <h4>When NOT to Use ✗</h4>
-                        <ul>
-                            <li>Building new agent for M365/Teams (use M365 Agents SDK)</li>
-                            <li>Need M365-specific features (use Agent 365 SDK)</li>
-                            <li>Need multi-agent orchestration (use Agent Framework)</li>
-                            <li>Starting from scratch without Bot Framework</li>
-                        </ul>
-                    </div>
-
-                    <div class="section">
-                        <h4>Key Features</h4>
-                        <ul>
-                            <li>Standard HTTPS protocol with WebSocket support</li>
-                            <li>Token-based authentication</li>
-                            <li>Client libraries for C# and Node.js</li>
-                            <li>Compatible with Bot Framework SDK 4.0</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="tech-card">
-                    <h3>M365 Agents SDK</h3>
-
-                    <div class="section">
-                        <h4>When to Use ✓</h4>
-                        <ul>
-                            <li>Building a new conversational agent</li>
-                            <li>Want multi-channel deployment (Teams, M365, Web)</li>
-                            <li>Need unified scaffolding for agent communication</li>
-                            <li>Want AI-service flexibility (any LLM provider)</li>
-                            <li>Prefer unified codebase across platforms</li>
-                        </ul>
-                    </div>
-
-                    <div class="section when-not">
-                        <h4>When NOT to Use ✗</h4>
-                        <ul>
-                            <li>Need advanced M365 integration (use Agent 365 SDK)</li>
-                            <li>Only accessing M365 Copilot APIs (use API directly)</li>
-                            <li>Need multi-agent orchestration (use Agent Framework)</li>
-                            <li>Have existing Bot Framework bot (consider DirectLine)</li>
-                        </ul>
-                    </div>
-
-                    <div class="section">
-                        <h4>Key Capabilities</h4>
-                        <ul>
-                            <li>Deploy to Teams, M365 Copilot, Copilot Studio, Web</li>
-                            <li>AI-agnostic architecture</li>
-                            <li>Scaffolding for agent communication patterns</li>
-                            <li>TypeScript and .NET support</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="tech-card">
-                    <h3>Microsoft Agent 365 SDK</h3>
-                    <span class="badge preview">Requires Frontier Preview Access</span>
-
-                    <div class="section">
-                        <h4>When to Use ✓</h4>
-                        <ul>
-                            <li>Agent needs to respond to Teams/Outlook notifications</li>
-                            <li>Require governed access to Mail, Calendar, SharePoint, Teams</li>
-                            <li>Need enterprise identity and security</li>
-                            <li>Want admin-controlled data access policies</li>
-                            <li>Require Model Context Protocol (MCP) integration</li>
-                        </ul>
-                    </div>
-
-                    <div class="section when-not">
-                        <h4>When NOT to Use ✗</h4>
-                        <ul>
-                            <li>Don't need M365 data access (use M365 Agents SDK)</li>
-                            <li>Building standalone bot (use DirectLine API)</li>
-                            <li>Only need Copilot APIs (use M365 Copilot API)</li>
-                            <li>Can't access Frontier preview program</li>
-                        </ul>
-                    </div>
-
-                    <div class="section">
-                        <h4>Enterprise Features</h4>
-                        <ul>
-                            <li>Notifications from Teams, Outlook, Word, Email</li>
-                            <li>Governed MCP servers for M365 workloads</li>
-                            <li>Agent 365 CLI for development lifecycle</li>
-                            <li>Enterprise security and identity management</li>
-                            <li>Admin-controlled access policies</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="tech-card">
-                    <h3>Microsoft Agent Framework</h3>
-
-                    <div class="section">
-                        <h4>When to Use ✓</h4>
-                        <ul>
-                            <li>Need multiple AI agents working together</li>
-                            <li>Building complex agentic workflows</li>
-                            <li>Want cloud-agnostic deployment</li>
-                            <li>Need to connect REST APIs as tools (OpenAPI)</li>
-                            <li>Want Model Context Protocol (MCP) integration</li>
-                            <li>Need local development with Azure deployment option</li>
-                        </ul>
-                    </div>
-
-                    <div class="section when-not">
-                        <h4>When NOT to Use ✗</h4>
-                        <ul>
-                            <li>Building single-agent chatbot (use M365 Agents SDK)</li>
-                            <li>Only need API access (use M365 Copilot API)</li>
-                            <li>Want fully managed service (use Foundry Agent Service)</li>
-                            <li>Prefer no-code/low-code solutions</li>
-                        </ul>
-                    </div>
-
-                    <div class="section">
-                        <h4>Core Capabilities</h4>
-                        <ul>
-                            <li>Multi-agent orchestration (AutoGen + Semantic Kernel)</li>
-                            <li>OpenAPI-first tool integration</li>
-                            <li>Cloud-agnostic runtime (containers, on-prem, multi-cloud)</li>
-                            <li>Model Context Protocol support</li>
-                            <li>Dynamic tool connections</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="tech-card">
-                    <h3>Azure AI Foundry SDK & Foundry Agent Service</h3>
-
-                    <div class="section">
-                        <h4>When to Use ✓</h4>
-                        <ul>
-                            <li>Building AI apps on Azure infrastructure</li>
-                            <li>Need Azure OpenAI, model catalog, prompt flow</li>
-                            <li>Want integrated observability and evaluation</li>
-                            <li>Require enterprise compliance and governance</li>
-                            <li>Need to deploy agents without infrastructure management</li>
-                            <li>Want to use LangGraph, CrewAI, or Agent Framework</li>
-                        </ul>
-                    </div>
-
-                    <div class="section when-not">
-                        <h4>When NOT to Use ✗</h4>
-                        <ul>
-                            <li>Need M365-specific features (use M365/Agent 365 SDK)</li>
-                            <li>Building simple bots (use DirectLine API)</li>
-                            <li>Require on-premises deployment</li>
-                            <li>Want to avoid cloud vendor lock-in</li>
-                        </ul>
-                    </div>
-
-                    <div class="section">
-                        <h4>Platform Features</h4>
-                        <ul>
-                            <li>Azure AI model catalog and Azure OpenAI</li>
-                            <li>Prompt flow and evaluation tools</li>
-                            <li>Built-in observability and monitoring</li>
-                            <li>Enterprise security and compliance</li>
-                            <li>Managed agent hosting (Foundry Agent Service)</li>
-                            <li>Support for multiple agent frameworks</li>
-                        </ul>
-                    </div>
                 </div>
             </div>
         </div>
