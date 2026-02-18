@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Microsoft Developer APIs & SDKs - Interactive Mindmap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            color: white;
+            padding: 20px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .controls button {
+            background: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .controls button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        .mindmap-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+            overflow: auto;
+        }
+
+        .mindmap {
+            position: relative;
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .node {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 180px;
+            text-align: center;
+            border: 3px solid;
+        }
+
+        .node:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+            z-index: 100;
+        }
+
+        .node.center {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 1.2em;
+            font-weight: bold;
+            padding: 25px 30px;
+            min-width: 280px;
+            border: 5px solid white;
+        }
+
+        .node.category {
+            font-weight: bold;
+            font-size: 1.1em;
+            min-width: 200px;
+        }
+
+        .node.technology {
+            font-size: 0.95em;
+        }
+
+        .node.collapsed .children {
+            display: none;
+        }
+
+        .node-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .node-subtitle {
+            font-size: 0.85em;
+            opacity: 0.8;
+            margin-top: 5px;
+        }
+
+        .connector {
+            position: absolute;
+            height: 2px;
+            background: white;
+            transform-origin: left center;
+            opacity: 0.6;
+            transition: opacity 0.3s;
+            pointer-events: none;
+        }
+
+        .connector.active {
+            opacity: 1;
+            background: #ffd700;
+            height: 3px;
+        }
+
+        /* Color schemes for different categories */
+        .api-access { border-color: #0078d4; background: #e3f2fd; }
+        .bot-framework { border-color: #ff8c00; background: #fff3e0; }
+        .agent-building { border-color: #7b1fa2; background: #f3e5f5; }
+        .enterprise-m365 { border-color: #388e3c; background: #e8f5e9; }
+        .multi-agent { border-color: #c2185b; background: #fce4ec; }
+        .azure-platform { border-color: #00897b; background: #e0f2f1; }
+        .managed-service { border-color: #fbc02d; background: #fff9c4; }
+
+        .tooltip {
+            position: fixed;
+            background: rgba(0, 0, 0, 0.9);
+            color: white;
+            padding: 15px;
+            border-radius: 8px;
+            max-width: 350px;
+            font-size: 0.9em;
+            pointer-events: none;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .tooltip.show {
+            display: block;
+        }
+
+        .tooltip-title {
+            font-weight: bold;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding-bottom: 5px;
+        }
+
+        .tooltip-content {
+            line-height: 1.5;
+        }
+
+        .legend {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 250px;
+        }
+
+        .legend h3 {
+            margin-bottom: 10px;
+            font-size: 1em;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin: 5px 0;
+            font-size: 0.85em;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 8px;
+            border: 2px solid;
+        }
+
+        .info-panel {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            max-width: 300px;
+            font-size: 0.9em;
+        }
+
+        .info-panel h3 {
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        .info-panel ul {
+            list-style: none;
+            line-height: 1.8;
+        }
+
+        .info-panel li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.5em;
+            }
+            .legend, .info-panel {
+                position: static;
+                margin: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🗺️ Microsoft Developer APIs & SDKs Mindmap</h1>
+        <p>Interactive guide to choosing the right technology</p>
+    </div>
+
+    <div class="controls">
+        <button onclick="expandAll()">Expand All</button>
+        <button onclick="collapseAll()">Collapse All</button>
+        <button onclick="resetZoom()">Reset View</button>
+        <button onclick="zoomIn()">Zoom In</button>
+        <button onclick="zoomOut()">Zoom Out</button>
+    </div>
+
+    <div class="mindmap-container">
+        <div class="mindmap" id="mindmap">
+            <!-- Mindmap will be generated here -->
+        </div>
+    </div>
+
+    <div class="legend">
+        <h3>📋 Technology Types</h3>
+        <div class="legend-item">
+            <div class="legend-color api-access"></div>
+            <span>API Access</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color bot-framework"></div>
+            <span>Bot Framework</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color agent-building"></div>
+            <span>Agent Building</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color enterprise-m365"></div>
+            <span>Enterprise M365</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color multi-agent"></div>
+            <span>Multi-Agent</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color azure-platform"></div>
+            <span>Azure Platform</span>
+        </div>
+    </div>
+
+    <div class="info-panel">
+        <h3>💡 How to Use</h3>
+        <ul>
+            <li>Hover over nodes for details</li>
+            <li>Click categories to expand/collapse</li>
+            <li>Use zoom controls to navigate</li>
+            <li>Colors indicate technology type</li>
+        </ul>
+    </div>
+
+    <div class="tooltip" id="tooltip">
+        <div class="tooltip-title" id="tooltip-title"></div>
+        <div class="tooltip-content" id="tooltip-content"></div>
+    </div>
+
+    <script>
+        const mindmapData = {
+            title: "Microsoft Developer\nAPIs & SDKs",
+            class: "center",
+            children: [
+                {
+                    title: "Access M365 Copilot\nCapabilities",
+                    class: "category api-access",
+                    angle: 0,
+                    distance: 300,
+                    children: [
+                        {
+                            title: "M365 Copilot API",
+                            subtitle: "REST APIs",
+                            class: "technology api-access",
+                            distance: 200,
+                            tooltip: {
+                                title: "M365 Copilot API",
+                                content: "✅ Use when: Semantic search over M365 content, conversational AI with enterprise data, meeting insights<br><br>📦 Includes: Retrieval API, Chat API, Meeting Insights API, Search API<br><br>🔧 Languages: REST, C#, TypeScript, Python"
+                            },
+                            children: [
+                                {
+                                    title: "Retrieval API",
+                                    subtitle: "Semantic Search",
+                                    class: "technology api-access",
+                                    distance: 150,
+                                    tooltip: {
+                                        title: "Retrieval API",
+                                        content: "Permission-aware semantic search across SharePoint and OneDrive. No vector index needed!"
+                                    }
+                                },
+                                {
+                                    title: "Chat API",
+                                    subtitle: "Conversations",
+                                    class: "technology api-access",
+                                    distance: 150,
+                                    tooltip: {
+                                        title: "Chat API",
+                                        content: "Multi-turn conversations with M365 and web search grounding. Enterprise data built-in."
+                                    }
+                                },
+                                {
+                                    title: "Meeting Insights",
+                                    subtitle: "AI Summaries",
+                                    class: "technology api-access",
+                                    distance: 150,
+                                    tooltip: {
+                                        title: "Meeting Insights API",
+                                        content: "AI-generated summaries, action items, and decisions from Teams meetings. Perfect for automation!"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    title: "Build Conversational\nBots",
+                    class: "category bot-framework",
+                    angle: 60,
+                    distance: 300,
+                    children: [
+                        {
+                            title: "DirectLine API",
+                            subtitle: "Bot Framework",
+                            class: "technology bot-framework",
+                            distance: 200,
+                            tooltip: {
+                                title: "DirectLine API",
+                                content: "✅ Use when: Custom chat UI for existing Bot Framework bots, embed bot in mobile/web apps<br><br>🔌 Protocol: HTTPS with WebSocket support<br><br>📱 Platforms: Cross-platform (Web, Mobile, Desktop)"
+                            }
+                        }
+                    ]
+                },
+                {
+                    title: "Build Multi-Channel\nAgents",
+                    class: "category agent-building",
+                    angle: 120,
+                    distance: 300,
+                    children: [
+                        {
+                            title: "M365 Agents SDK",
+                            subtitle: "Teams, M365, Web",
+                            class: "technology agent-building",
+                            distance: 200,
+                            tooltip: {
+                                title: "M365 Agents SDK",
+                                content: "✅ Use when: Building new agents for multiple channels, need unified codebase<br><br>📱 Channels: Teams, M365 Copilot, Copilot Studio, Web<br><br>🤖 AI-Agnostic: Use any LLM provider"
+                            }
+                        }
+                    ]
+                },
+                {
+                    title: "Enterprise M365\nIntegration",
+                    class: "category enterprise-m365",
+                    angle: 180,
+                    distance: 300,
+                    children: [
+                        {
+                            title: "Microsoft Agent 365 SDK",
+                            subtitle: "Enterprise Features",
+                            class: "technology enterprise-m365",
+                            distance: 200,
+                            tooltip: {
+                                title: "Microsoft Agent 365 SDK",
+                                content: "✅ Use when: Need Teams/Outlook notifications, governed M365 data access, enterprise identity<br><br>🔐 Features: MCP integration, admin-controlled access, Agent 365 CLI<br><br>⚠️ Requires Frontier preview access"
+                            },
+                            children: [
+                                {
+                                    title: "Notifications",
+                                    subtitle: "Teams/Outlook",
+                                    class: "technology enterprise-m365",
+                                    distance: 150,
+                                    tooltip: {
+                                        title: "M365 Notifications",
+                                        content: "Respond to notifications from Teams, Outlook, Word comments, and emails like a human participant."
+                                    }
+                                },
+                                {
+                                    title: "MCP Servers",
+                                    subtitle: "Governed Access",
+                                    class: "technology enterprise-m365",
+                                    distance: 150,
+                                    tooltip: {
+                                        title: "Model Context Protocol",
+                                        content: "Governed access to Mail, Calendar, SharePoint, Teams with admin-controlled policies."
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                },
+                {
+                    title: "Multi-Agent\nOrchestration",
+                    class: "category multi-agent",
+                    angle: 240,
+                    distance: 300,
+                    children: [
+                        {
+                            title: "Microsoft Agent\nFramework",
+                            subtitle: "AutoGen + Semantic Kernel",
+                            class: "technology multi-agent",
+                            distance: 200,
+                            tooltip: {
+                                title: "Microsoft Agent Framework",
+                                content: "✅ Use when: Multiple AI agents working together, complex workflows, OpenAPI tool integration<br><br>🔧 Features: Cloud-agnostic, MCP support, OpenAPI-first<br><br>🌐 Deploy: Containers, on-premises, multi-cloud"
+                            }
+                        },
+                        {
+                            title: "Foundry Agent\nService",
+                            subtitle: "Managed Hosting",
+                            class: "technology managed-service",
+                            distance: 200,
+                            tooltip: {
+                                title: "Foundry Agent Service",
+                                content: "✅ Use when: Deploy agents without infrastructure management<br><br>🎯 Supports: Agent Framework, LangGraph, CrewAI<br><br>☁️ Fully managed with observability built-in"
+                            }
+                        }
+                    ]
+                },
+                {
+                    title: "Azure AI\nPlatform",
+                    class: "category azure-platform",
+                    angle: 300,
+                    distance: 300,
+                    children: [
+                        {
+                            title: "Azure AI Foundry SDK",
+                            subtitle: "Azure AI Services",
+                            class: "technology azure-platform",
+                            distance: 200,
+                            tooltip: {
+                                title: "Azure AI Foundry SDK",
+                                content: "✅ Use when: Building AI apps on Azure, need Azure OpenAI, prompt flow, evaluation tools<br><br>🔍 Features: Model catalog, observability, compliance<br><br>☁️ Integrated Azure services"
+                            }
+                        }
+                    ]
+                }
+            ]
+        };
+
+        let currentZoom = 1;
+        const mindmapElement = document.getElementById('mindmap');
+        const tooltip = document.getElementById('tooltip');
+
+        function createNode(data, parentX, parentY, angle, distance, depth = 0) {
+            const node = document.createElement('div');
+            node.className = `node ${data.class}`;
+
+            const radians = (angle * Math.PI) / 180;
+            const x = parentX + distance * Math.cos(radians);
+            const y = parentY + distance * Math.sin(radians);
+
+            node.style.left = `${x}px`;
+            node.style.top = `${y}px`;
+
+            const titleDiv = document.createElement('div');
+            titleDiv.className = 'node-title';
+            titleDiv.textContent = data.title;
+            node.appendChild(titleDiv);
+
+            if (data.subtitle) {
+                const subtitleDiv = document.createElement('div');
+                subtitleDiv.className = 'node-subtitle';
+                subtitleDiv.textContent = data.subtitle;
+                node.appendChild(subtitleDiv);
+            }
+
+            if (data.tooltip) {
+                node.addEventListener('mouseenter', (e) => showTooltip(e, data.tooltip));
+                node.addEventListener('mouseleave', hideTooltip);
+            }
+
+            if (data.children && data.children.length > 0) {
+                node.style.cursor = 'pointer';
+                node.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    toggleNode(node);
+                });
+            }
+
+            mindmapElement.appendChild(node);
+
+            if (depth > 0) {
+                createConnector(parentX, parentY, x, y);
+            }
+
+            if (data.children) {
+                const angleStep = data.children.length === 1 ? 0 : 60 / (data.children.length - 1);
+                const startAngle = angle - 30;
+
+                data.children.forEach((child, index) => {
+                    const childAngle = data.children.length === 1 ? angle : startAngle + (angleStep * index);
+                    const childDistance = child.distance || 150;
+                    createNode(child, x, y, childAngle, childDistance, depth + 1);
+                });
+            }
+
+            return node;
+        }
+
+        function createConnector(x1, y1, x2, y2) {
+            const connector = document.createElement('div');
+            connector.className = 'connector';
+
+            const length = Math.sqrt(Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2));
+            const angle = Math.atan2(y2 - y1, x2 - x1) * (180 / Math.PI);
+
+            connector.style.width = `${length}px`;
+            connector.style.left = `${x1}px`;
+            connector.style.top = `${y1}px`;
+            connector.style.transform = `rotate(${angle}deg)`;
+
+            mindmapElement.appendChild(connector);
+        }
+
+        function showTooltip(event, tooltipData) {
+            const tooltipTitle = document.getElementById('tooltip-title');
+            const tooltipContent = document.getElementById('tooltip-content');
+
+            tooltipTitle.textContent = tooltipData.title;
+            tooltipContent.innerHTML = tooltipData.content;
+
+            tooltip.classList.add('show');
+            updateTooltipPosition(event);
+        }
+
+        function hideTooltip() {
+            tooltip.classList.remove('show');
+        }
+
+        function updateTooltipPosition(event) {
+            const x = event.clientX + 15;
+            const y = event.clientY + 15;
+
+            tooltip.style.left = `${x}px`;
+            tooltip.style.top = `${y}px`;
+        }
+
+        document.addEventListener('mousemove', (e) => {
+            if (tooltip.classList.contains('show')) {
+                updateTooltipPosition(e);
+            }
+        });
+
+        function toggleNode(node) {
+            node.classList.toggle('collapsed');
+        }
+
+        function expandAll() {
+            document.querySelectorAll('.node').forEach(node => {
+                node.classList.remove('collapsed');
+            });
+        }
+
+        function collapseAll() {
+            document.querySelectorAll('.node.category').forEach(node => {
+                node.classList.add('collapsed');
+            });
+        }
+
+        function zoomIn() {
+            currentZoom = Math.min(currentZoom + 0.1, 2);
+            mindmapElement.style.transform = `scale(${currentZoom})`;
+        }
+
+        function zoomOut() {
+            currentZoom = Math.max(currentZoom - 0.1, 0.5);
+            mindmapElement.style.transform = `scale(${currentZoom})`;
+        }
+
+        function resetZoom() {
+            currentZoom = 1;
+            mindmapElement.style.transform = `scale(1)`;
+        }
+
+        // Initialize mindmap
+        const containerRect = mindmapElement.parentElement.getBoundingClientRect();
+        const centerX = containerRect.width / 2;
+        const centerY = containerRect.height / 2;
+
+        createNode(mindmapData, centerX, centerY, 0, 0);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            if (e.key === '+' || e.key === '=') zoomIn();
+            if (e.key === '-' || e.key === '_') zoomOut();
+            if (e.key === '0') resetZoom();
+            if (e.key === 'e') expandAll();
+            if (e.key === 'c') collapseAll();
+        });
+
+        console.log('🎉 Mindmap loaded! Keyboard shortcuts: +/- (zoom), 0 (reset), e (expand), c (collapse)');
+    </script>
+</body>
+</html>
